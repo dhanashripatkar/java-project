@@ -109,5 +109,51 @@ public class BinarySearch {
         return r;
         
     }
+// https://leetcode.com/problems/find-peak-element/submissions/1072482164/?envType=study-plan-v2&envId=leetcode-75
+    /**
+     * Example 1:
+     * A peak element is an element that is strictly greater than its neighbors.
+
+Input: nums = [1,2,3,1]
+Output: 2
+Explanation: 3 is a peak element and your function should return the index number 2.
+     * @param nums
+     * @return
+     */
+
+    public int findPeakElement(int[] nums) {
+        int left =0; int right = nums.length-1;
+
+        while(left <= right){
+            int mid = left + (right-left)/2;
+            if(mid >0 && nums[mid] < nums[mid-1]){
+                right = mid-1;
+            } else if(mid < nums.length -1 && nums[mid] < nums[mid+1]){
+                left = mid+1;
+            } else {
+                return mid;
+            }
+        }
+        return 0;
+
+        // // with O(n)
+        // boolean found = false;
+        // for(int i=1; i < nums.length-1; i++){
+        
+        //     if(nums[i] > nums[i+1] && nums[i] > nums[i-1]){
+        //         found = true;
+        //         return i;
+        //     }
+        // }
+        // if(!found && nums.length > 1){
+        //     if(nums[0] > nums[1]){
+        //         return 0;
+        //     }else if(nums[nums.length-1] > nums[nums.length-2]){
+        //         return nums.length-1;
+        //     }
+        // }
+        // return 0;
+        
+    }
 
 }

@@ -6,6 +6,34 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MergeIntervals",
+            "request": "launch",
+            "mainClass": "mylearnings.com.example.MergeIntervals",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "Tree",
+            "request": "launch",
+            "mainClass": "mylearnings.com.example.Tree",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "Graph",
+            "request": "launch",
+            "mainClass": "mylearnings.com.example.Graph",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "Array",
+            "request": "launch",
+            "mainClass": "mylearnings.com.example.Array",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
             "name": "BinarySearch",
             "request": "launch",
             "mainClass": "mylearnings.com.example.BinarySearch",

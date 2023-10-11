@@ -9,7 +9,8 @@ class JumpGame {
         System.out.println("result : " + result);
 
     }
-
+ 
+    // https://leetcode.com/problems/jump-game/submissions/1061612989/
     public int isValidGame(int[] arr) {
         int current = 0;
         int max = 0;
@@ -24,6 +25,27 @@ class JumpGame {
         }
 
         return 1;
+    }
+
+    // jump game 2
+    // minimum jump to reach at n -1 length
+    // https://leetcode.com/problems/jump-game-ii/submissions/1061608286/
+    public int jump(int[] nums) {
+        int right =0;
+        int count= 0;
+        int left =0;
+        while(right < nums.length - 1){
+            int sum =0;
+            for(int i = left; i<= right ; i++){
+                sum = Math.max(sum, i + nums[i]);
+            }
+            left = right+1;
+            right = sum;
+            count++;
+        }
+
+        return count;
+        
     }
 
 }
