@@ -1,5 +1,7 @@
 package mylearnings.com.example;
 
+import javax.swing.tree.TreeNode;
+
 public class Tree {
 
     static int height = -1;
@@ -22,6 +24,16 @@ public class Tree {
 
     // Function to find the depth of
     // a given node in a Binary Tree
+    /**
+     * The depth of a node is the number of edges present in path from the root node
+     * of a tree to that node.
+     * The height of a node is the number of edges present in the longest path
+     * connecting that node to a leaf node.
+     * 
+     * @param root
+     * @param x
+     * @return
+     */
     static int findDepth(Node root, int x) {
 
         // Base case
@@ -124,6 +136,22 @@ public class Tree {
         depth = Math.max(leftDep, rightDep) + 1;
 
         return depth;
+    }
+
+     public int goodNodes(Node root) {
+        return dfs(root, root.data);
+    }
+
+    public int dfs(Node root, int maxValue){
+        if(root == null){
+            return 0;
+        }
+        int res = root.data >= maxValue ? 1:0;
+        maxValue = Math.max(maxValue, root.data);
+        res += dfs(root.left, maxValue);
+        res += dfs(root.right, maxValue);
+        return res;
+
     }
 
     // Driver Code

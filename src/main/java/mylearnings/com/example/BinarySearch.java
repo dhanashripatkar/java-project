@@ -83,53 +83,57 @@ public class BinarySearch {
 
         Arrays.sort(piles);
         int l = 1;
-        int r = piles[piles.length -1];
+        int r = piles[piles.length - 1];
 
-        while(l < r) {
-            int k = l + (r-l)/2;
+        while (l < r) {
+            int k = l + (r - l) / 2;
             int hours = 0;
-            for (int i= 0; i < piles.length ; i++){
-                if(k != 0){
-                if(piles[i] % k != 0){
-                    hours += (piles[i]/k) + 1;
-                 } else { 
-                     hours += (piles[i]/k);
-                  }
-                } 
+            for (int i = 0; i < piles.length; i++) {
+                if (k != 0) {
+                    if (piles[i] % k != 0) {
+                        hours += (piles[i] / k) + 1;
+                    } else {
+                        hours += (piles[i] / k);
+                    }
+                }
             }
-            
-            if(hours <= h){
+
+            if (hours <= h) {
                 r = k;
             } else {
-                l = k+1;
+                l = k + 1;
             }
-            
+
         }
 
         return r;
-        
+
     }
-// https://leetcode.com/problems/find-peak-element/submissions/1072482164/?envType=study-plan-v2&envId=leetcode-75
+
+    // https://leetcode.com/problems/find-peak-element/submissions/1072482164/?envType=study-plan-v2&envId=leetcode-75
     /**
      * Example 1:
      * A peak element is an element that is strictly greater than its neighbors.
-
-Input: nums = [1,2,3,1]
-Output: 2
-Explanation: 3 is a peak element and your function should return the index number 2.
+     * 
+     * Input: nums = [1,2,3,1]
+     * Output: 2
+     * Explanation: 3 is a peak element and your function should return the index
+     * number 2.
+     * 
      * @param nums
      * @return
      */
 
     public int findPeakElement(int[] nums) {
-        int left =0; int right = nums.length-1;
+        int left = 0;
+        int right = nums.length - 1;
 
-        while(left <= right){
-            int mid = left + (right-left)/2;
-            if(mid >0 && nums[mid] < nums[mid-1]){
-                right = mid-1;
-            } else if(mid < nums.length -1 && nums[mid] < nums[mid+1]){
-                left = mid+1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (mid > 0 && nums[mid] < nums[mid - 1]) {
+                right = mid - 1;
+            } else if (mid < nums.length - 1 && nums[mid] < nums[mid + 1]) {
+                left = mid + 1;
             } else {
                 return mid;
             }
@@ -139,21 +143,60 @@ Explanation: 3 is a peak element and your function should return the index numbe
         // // with O(n)
         // boolean found = false;
         // for(int i=1; i < nums.length-1; i++){
-        
-        //     if(nums[i] > nums[i+1] && nums[i] > nums[i-1]){
-        //         found = true;
-        //         return i;
-        //     }
+
+        // if(nums[i] > nums[i+1] && nums[i] > nums[i-1]){
+        // found = true;
+        // return i;
+        // }
         // }
         // if(!found && nums.length > 1){
-        //     if(nums[0] > nums[1]){
-        //         return 0;
-        //     }else if(nums[nums.length-1] > nums[nums.length-2]){
-        //         return nums.length-1;
-        //     }
+        // if(nums[0] > nums[1]){
+        // return 0;
+        // }else if(nums[nums.length-1] > nums[nums.length-2]){
+        // return nums.length-1;
+        // }
         // }
         // return 0;
-        
+
+    }
+
+    /**
+     * Input: spells = [5,1,3], potions = [1,2,3,4,5], success = 7
+     * Output: [4,0,3]
+     * Explanation:
+     * - 0th spell: 5 * [1,2,3,4,5] = [5,10,15,20,25]. 4 pairs are successful.
+     * - 1st spell: 1 * [1,2,3,4,5] = [1,2,3,4,5]. 0 pairs are successful.
+     * - 2nd spell: 3 * [1,2,3,4,5] = [3,6,9,12,15]. 3 pairs are successful.
+     * Thus, [4,0,3] is returned.
+     * 
+     * @param spells
+     * @param potions
+     * @param success
+     * @return
+     */
+    public int[] successfulPairs(int[] spells, int[] potions, long success) {
+        int len1 = spells.length;
+        int len2 = potions.length;
+        Arrays.sort(potions);
+        int[] res = new int[len1];
+        for (int i = 0; i < len1; i++) {
+            int left = 0;
+            int right = len2 - 1;
+            int count = len2;
+            while (left <= right) {
+                int mid = (left + right) / 2;
+                Long prod = (long) spells[i] * potions[mid];
+                if (prod >= success || prod < 0) {
+                    count = mid;
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
+            }
+            res[i] = len2 - count;
+        }
+        return res;
+
     }
 
 }

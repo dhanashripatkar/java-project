@@ -2,6 +2,7 @@ package mylearnings.com.example;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MergeIntervals {
 
@@ -31,6 +32,44 @@ public class MergeIntervals {
         }
 
         return ans;
+    }
+
+    /**
+     * Given an array of intervals intervals where intervals[i] = [starti, endi],
+     * return the minimum number of intervals you need to remove to make the rest of
+     * the intervals non-overlapping.
+     * 
+     * Example 1:
+     * 
+     * Input: intervals = [[1,2],[2,3],[3,4],[1,3]]
+     * Output: 1
+     * Explanation: [1,3] can be removed and the rest of the intervals are
+     * non-overlapping.
+     * 
+     * @param intervals
+     * @return
+     */
+
+    public int eraseOverlapIntervals(int[][] intervals) {
+
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
+        List<int[]> list = new ArrayList<>();
+        list.add(intervals[0]);
+        int count = 0;
+
+        for (int i = 1; i < intervals.length; i++) {
+            int current = intervals[i][0];
+            if (current < list.get(list.size() - 1)[1]) {
+                count++;
+                if (list.get(list.size() - 1)[1] > intervals[i][1]) {
+                    list.get(list.size() - 1)[1] = intervals[i][1];
+                }
+            } else {
+                list.add(intervals[i]);
+            }
+        }
+        System.gc();
+        return count;
     }
 
 }

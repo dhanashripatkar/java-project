@@ -2,6 +2,7 @@ package mylearnings.com.example;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Queue;
 
 public class Graph {
 
@@ -15,7 +16,7 @@ public class Graph {
         this.adj = new LinkedList[v];
 
         // for (int i = 0; i < adj.length; i++) {
-        //     System.out.println(" adj : " + adj[i]);
+        // System.out.println(" adj : " + adj[i]);
         // }
 
         // [{}, {}, {}, {}];
@@ -84,6 +85,82 @@ public class Graph {
                 DFSUtil(n, visted);
             }
         }
+    }
+
+    // BFS Graph
+    public int orangesRotting(int[][] grid) {
+
+        int m = grid.length;
+        int n = grid[0].length;
+        int fresh = 0;
+
+        Queue<int[]> queue = new LinkedList<>();
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 2) {
+                    queue.offer(new int[] { i, j });
+                } else if (grid[i][j] == 1) {
+                    fresh = fresh + 1;
+                }
+            }
+        }
+
+        int time = 0;
+        int[][] dir = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+
+        while (!queue.isEmpty() && fresh > 0) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int[] pair = queue.poll();
+                for (int[] dr : dir) {
+                    int row = pair[0] + dr[0];
+                    int col = pair[1] + dr[1];
+
+                    if (row >= 0 && row < m && col >= 0 && col < n && grid[row][col] == 1) {
+                        grid[row][col] = 2;
+                        queue.offer(new int[] { row, col });
+                        fresh = fresh - 1;
+                    }
+                }
+            }
+            time++;
+        }
+        if (fresh == 0) {
+            return time;
+        } else
+            return -1;
+
+    }
+
+    public int numIslands(char[][] grid) {
+        int n = grid.length;
+        int m = grid[0].length;
+        int island = 0;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (grid[i][j] == '1') {
+                    dfs(grid, i, j);
+                    island++;
+                }
+            }
+        }
+        return island;
+
+    }
+
+    public void dfs(char[][] grid, int i, int j) {
+        if (i < 0 || j < 0 ||
+                i >= grid.length || j >= grid[0].length ||
+                grid[i][j] == '0') {
+            return;
+        }
+        grid[i][j] = '0';
+        dfs(grid, i + 1, j);
+        dfs(grid, i, j + 1);
+        dfs(grid, i - 1, j);
+        dfs(grid, i, j - 1);
     }
 
 }

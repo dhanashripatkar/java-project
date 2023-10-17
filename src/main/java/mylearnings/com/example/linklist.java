@@ -5,15 +5,23 @@ class Linklist {
     public Node head;
     public Node tail;
 
+    public Node head2;
+    public Node tail2;
+
     class Node {
         int data;
         Node next;
+
+        public Node() {
+
+        }
 
         Node(int d) {
             this.data = d;
             this.next = null;
         }
     }
+
 
     public void push(int data) {
         final Node new_node = new Node(data);
@@ -32,6 +40,25 @@ class Linklist {
          * head = new_node;
          */
     }
+
+     public void push2(int data) {
+        final Node new_node = new Node(data);
+        // last append
+        if (this.head2 == null) {
+            this.head2 = new_node;
+            tail2 = new_node;
+            return;
+        }
+        tail2.next = new_node;
+        tail2 = new_node;
+
+        // first append
+        /**
+         * new_node.next = head;
+         * head = new_node;
+         */
+    }
+
 
     public void getMiddle() {
         Node first = head;
@@ -174,20 +201,51 @@ class Linklist {
         }
     }
 
-    public void print() {
-        Node current = this.head;
+    public static void print(Node head) {
+        Node current = head;
         while (current != null) {
             System.out.println(current.data);
             current = current.next;
         }
     }
 
+     public void print2() {
+        Node current = this.head2;
+        while (current != null) {
+            System.out.println(current.data);
+            current = current.next;
+        }
+    }
+
+    public Node mergeTwoLists() {
+        Node list1 = head;
+        Node list2 = head;
+        final Node root = new Node();
+        Node prev = root;
+        while (list1 != null && list2 != null) {
+            if (list1.data < list2.data) {
+                prev.next = list1;
+                list1 = list1.next;
+            } else {
+                prev.next = list2;
+                list2 = list2.next;
+            }
+            prev = prev.next;
+        }
+        prev.next = list1 != null ? list1 : list2;// append the remaining portion
+        return root.next;
+    }
+
     public static void main(String args[]) {
         final Linklist list = new Linklist();
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 3; i++) {
             list.push(i);
         }
-        list.print();
+        final Linklist list2 = new Linklist();
+        for (int i = 2; i < 6; i++) {
+            list2.push2(i);
+        }
+        //list2.print2();
         // list.getMiddle();
         // list.isElementPresent(10);
         // list.reverse();
@@ -200,7 +258,10 @@ class Linklist {
         // int result = list.getNthNodeRecurssive(null, 5, true);
         // System.out.println("Nth node is : " + result);
 
-        list.getNthNodeFromLast(6);
+        // list.getNthNodeFromLast(6);
+        Node ans = list.mergeTwoLists();
+        print(ans);
+
     }
 
 }

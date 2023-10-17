@@ -6,6 +6,48 @@
     "configurations": [
         {
             "type": "java",
+            "name": "NthSortedNumber",
+            "request": "launch",
+            "mainClass": "mylearnings.com.example.NthSortedNumber",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "SlidingWindow",
+            "request": "launch",
+            "mainClass": "mylearnings.com.example.SlidingWindow",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "StackProblem",
+            "request": "launch",
+            "mainClass": "mylearnings.com.example.StackProblem",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "Linklist",
+            "request": "launch",
+            "mainClass": "mylearnings.com.example.Linklist",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "DP",
+            "request": "launch",
+            "mainClass": "mylearnings.com.example.DP",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "BackTracking",
+            "request": "launch",
+            "mainClass": "mylearnings.com.example.BackTracking",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
             "name": "MergeIntervals",
             "request": "launch",
             "mainClass": "mylearnings.com.example.MergeIntervals",

@@ -1,7 +1,12 @@
 package mylearnings.com.example;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Stack;
 
 public class StackProblem {
     // infix to suffix problem
@@ -85,11 +90,83 @@ public class StackProblem {
         return result;
     }
 
+    Stack<Character> stack = new Stack<>();
+    public List<String> res = new ArrayList<>();
+
+    public List<String> generateParenthesis(int n) {
+        backtrack(0, 0, n);
+        System.out.println(res);
+        return res;
+    }
+
+    private void backtrack(int openN, int closedN, int n) {
+        if (openN == closedN && closedN == n) {
+            Iterator i = stack.iterator();
+            String temp = "";
+            while (i.hasNext()) {
+                temp = temp + i.next();
+            }
+            res.add(temp);
+        }
+        if (openN < n) {
+            stack.push('(');
+            backtrack(openN + 1, closedN, n);
+            stack.pop();
+        }
+        if (closedN < openN) {
+            stack.push(')');
+            backtrack(openN, closedN + 1, n);
+            stack.pop();
+        }
+    }
+
+    /**
+     * Example 2:
+     * 
+     * Input: s = "()[]{}"
+     * Output: true
+     * Example 3:
+     * 
+     * Input: s = "(]"
+     * Output: false
+     * 
+     * @param s
+     * @return
+     */
+    public boolean isValidParentheses(String s) {
+
+        HashMap<Character, Character> map = new HashMap<>();
+        map.put(')', '(');
+        map.put('}', '{');
+        map.put(']', '[');
+
+        final Stack<Character> stack = new Stack<>();
+
+        for (int i = 0; i < s.length(); i++) {
+            Character c = s.charAt(i);
+            if (map.containsKey(c)) {
+                if (!stack.isEmpty() && map.get(c).equals(stack.peek())) {
+                    stack.pop();
+                } else {
+                    return false;
+                }
+            } else {
+                stack.push(c);
+            }
+        }
+
+        return stack.isEmpty();
+
+    }
+
     // Driver code
     public static void main(String[] args) {
         String exp = "a+b*(c^d-e)^(f+g*h)-i";
 
         // Function call
-        System.out.println(infixToPostfix(exp));
+        // System.out.println(infixToPostfix(exp));
+
+        StackProblem stackProblem = new StackProblem();
+        stackProblem.generateParenthesis(3);
     }
 }

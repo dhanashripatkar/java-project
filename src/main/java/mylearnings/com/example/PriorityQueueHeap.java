@@ -23,6 +23,7 @@ public class PriorityQueueHeap {
 			if (pq.size() < k) {
 				pq.offer(nums[i]);
 			} else if (nums[i] > pq.peek()) {
+				// for kth smallest nums[i] < pq.peek() and pq will be in decending order
 				pq.poll();
 				pq.offer(nums[i]);
 			}
@@ -118,5 +119,43 @@ public class PriorityQueueHeap {
 			res[count++] = pq.poll();
 		}
 		return res;
+	}
+
+	PriorityQueue<Integer> maxHeap; // left part of number
+	PriorityQueue<Integer> minHeap; // right part of number
+
+	public PriorityQueueHeap() {
+		this.maxHeap = new PriorityQueue<>((a, b) -> b - a);// decending order
+		this.minHeap = new PriorityQueue<>(); // assending order
+	}
+
+	public void addNum(int num) {
+		if (maxHeap.isEmpty() || num <= maxHeap.peek()) {
+			maxHeap.offer(num);
+		} else {
+			minHeap.offer(num);
+		}
+		// balancing of heaps
+		/**
+		 * balance the heaps in such way that
+		 * either max.size() == minHeap.size()
+		 * or maxheap.size() = minHeap.size() + 1
+		 */
+		if (maxHeap.size() > minHeap.size() + 1) {
+			minHeap.offer(maxHeap.poll());
+		} else if (minHeap.size() > maxHeap.size()) {
+			maxHeap.offer(minHeap.poll());
+		}
+	}
+
+	public double findMedian() {
+		if (maxHeap.isEmpty()) {
+			return 0.0;
+		}
+		if (maxHeap.size() == minHeap.size()) {
+			return (maxHeap.peek() + minHeap.peek()) / 2.0;
+		} else {
+			return maxHeap.peek();
+		}
 	}
 }
