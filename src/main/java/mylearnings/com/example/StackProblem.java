@@ -159,6 +159,42 @@ public class StackProblem {
 
     }
 
+    /*
+     * Sample Input 1 :
+     * 1
+     * 4
+     * 1 2 4 3
+     * Sample Output 1 :
+     * 2 4 -1 -1
+     */
+    public static int[] nextGreater(int[] arr, int n) {
+        // Write Your code here
+
+        int[] res = new int[n];
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = n - 1; i >= 0; i--) {
+            if (stack.isEmpty()) {
+                res[i] = -1;
+            } else if (stack.peek() > arr[i]) {
+                res[i] = stack.peek();
+            } else {
+                while (!stack.isEmpty() && stack.peek() <= arr[i]) {
+                    stack.pop();
+                }
+                if (stack.isEmpty()) {
+                    res[i] = -1;
+                } else {
+                    res[i] = stack.peek();
+                }
+            }
+            stack.push(arr[i]);
+        }
+        System.gc();
+        return res;
+
+    }
+
     // Driver code
     public static void main(String[] args) {
         String exp = "a+b*(c^d-e)^(f+g*h)-i";

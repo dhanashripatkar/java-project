@@ -199,4 +199,88 @@ public class BinarySearch {
 
     }
 
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        // time com -> O(n+m)
+        // space com -> O(1)
+        // suppose m is of short length
+        int m = nums1.length;
+        int n = nums2.length;
+
+        if (m > n) {
+            return findMedianSortedArrays(nums2, nums1);
+        }
+
+        int left = 0;
+        int right = m;
+        int total = m + n;
+        int half = (total + 1) / 2; // imp
+        double result = 0.0;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            int j = half - mid; // imp
+
+            int left1 = (mid > 0) ? nums1[mid - 1] : Integer.MIN_VALUE;
+            int right1 = (mid < m) ? nums1[mid] : Integer.MAX_VALUE;
+            int left2 = (j > 0) ? nums2[j - 1] : Integer.MIN_VALUE;
+            int right2 = (j < n) ? nums2[j] : Integer.MAX_VALUE;
+
+            // correct condition
+            if (left1 <= right2 && left2 <= right1) {
+                // odd
+                if (total % 2 == 1) {
+                    result = Math.max(left1, left2);
+                } else {
+                    // even
+                    result = (Math.max(left1, left2) + Math.min(right1, right2)) / 2.0;
+                }
+                break;
+            } else if (left1 > right2) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+
+        }
+        return result;
+
+    }
+
+    /**
+     * You are given an m x n integer matrix matrix with the following two
+     * properties:
+     * 
+     * Each row is sorted in non-decreasing order.
+     * The first integer of each row is greater than the last integer of the
+     * previous row.
+     * Given an integer target, return true if target is in matrix or false
+     * otherwise.
+     * 
+     * You must write a solution in O(log(m * n)) time complexity.
+     * Input: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3
+     * Output: true
+     * 
+     * @param matrix
+     * @param target
+     * @return
+     */
+    public boolean searchMatrix(int[][] matrix, int target) {
+        // time -> O(n)
+        // space -> O(1)
+        int rows = matrix.length;
+        int columns = matrix[0].length;
+        int low = 0;
+        int high = rows * columns - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2; // normal as matrix max size is 100
+            if (matrix[mid / columns][mid % columns] == target) {
+                return true;
+            } else if (matrix[mid / columns][mid % columns] < target) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return false;
+    }
 }

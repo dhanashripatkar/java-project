@@ -1,6 +1,7 @@
 package mylearnings.com.example;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -144,6 +145,75 @@ public class StringProblems {
         }
         return res;
 
+    }
+
+    /**
+     * Given two strings s and t, return true if t is an anagram of s, and false
+     * otherwise.
+     * 
+     * An Anagram is a word or phrase formed by rearranging the letters of a
+     * different word or phrase, typically using all the original letters exactly
+     * once.
+     * Example 1:
+     * 
+     * Input: s = "anagram", t = "nagaram"
+     * Output: true
+     * 
+     * Example 2:
+     * 
+     * Input: s = "rat", t = "car"
+     * Output: false
+     * 
+     * 
+     * @param s
+     * @param t
+     * @return
+     */
+    public boolean isAnagram(String s, String t) {
+        if (s.length() != t.length()) {
+            return false;
+        }
+        int[] fre = new int[26];// count of each character
+
+        for (int i = 0; i < s.length(); i++) {
+            fre[s.charAt(i) - 'a']++;
+            fre[t.charAt(i) - 'a']--;
+        }
+        for (int i = 0; i < 26; i++) {
+            if (fre[i] != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Given an array of strings strs, group the anagrams together.
+     * Example 1:
+     * 
+     * Input: strs = ["eat","tea","tan","ate","nat","bat"]
+     * Output: [["bat"],["nat","tan"],["ate","eat","tea"]]
+     * 
+     * @param strs
+     * @return
+     */
+    public List<List<String>> groupAnagrams(String[] strs) {
+        // Time Complexity: O(N * K * log(K))
+        // Space Complexity: O(N)
+
+        HashMap<String, List<String>> map = new HashMap<>();
+
+        for (String word : strs) {
+            char[] chars = word.toCharArray();
+            Arrays.sort(chars);
+
+            String sordtedWord = new String(chars);
+            if (!map.containsKey(sordtedWord)) {
+                map.put(sordtedWord, new ArrayList<>());
+            }
+            map.get(sordtedWord).add(word);
+        }
+        return new ArrayList<>(map.values());
     }
 
 }

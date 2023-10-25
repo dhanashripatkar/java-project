@@ -1,6 +1,8 @@
 package mylearnings.com.example;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Array {
 
@@ -80,6 +82,7 @@ public class Array {
     }
 
     public int[] getMissingAndRepeatingNo(ArrayList<Integer> list) {
+        // applicable only if input list is in range of 1 to n
         int[] hash = new int[list.size() + 1];
 
         for (int i = 0; i < list.size(); i++) {
@@ -138,12 +141,94 @@ public class Array {
         int total = 0;
         for (int i = 0; i < gas.length; i++) {
             total += gas[i] - cost[i];
+            // imp
             if (total < 0) {
                 total = 0;
                 res = i + 1;
             }
         }
         return res;
+
+    }
+
+    /**
+     * Input: nums = [100,4,200,1,3,2]
+     * Output: 4
+     * Explanation: The longest consecutive elements sequence is [1, 2, 3, 4].
+     * Therefore its length is 4.
+     * 
+     * @param nums
+     * @return
+     */
+    public int longestConsecutive(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+
+        int res = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (!set.contains(nums[i] - 1)) {
+                int length = 0;
+                while (set.contains(nums[i] + length)) {
+                    length += 1;
+                }
+                res = Math.max(res, length);
+            }
+            // add this to lower runtime
+            if (res > nums.length / 2) {
+                break;
+            }
+        }
+        System.gc();
+        return res;
+
+    }
+
+    /**
+     * Input: nums = [1,2,3,1]
+     * Output: true
+     * 
+     * @param nums
+     * @return
+     */
+    public boolean containsDuplicate(int[] nums) {
+        int len = nums.length;
+        Set<Integer> set = new HashSet<>();
+
+        for (int i = 0; i < len; i++) {
+            if (set.contains(nums[i])) {
+                return true;
+            }
+            set.add(nums[i]);
+        }
+        return false;
+    }
+
+    public boolean isValidSudoku(char[][] board) {
+        // Hashset.add() method gives true if element is not present else false
+        /**
+         * '4' in row 7 is encoded as "(4)7".
+         * '4' in column 7 is encoded as "7(4)".
+         * '4' in the top-right block is encoded as "0(4)2".
+         */
+
+        // time -> O(9^2)
+        // space -> O(9^2)
+        Set<String> seen = new HashSet<>();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board[i][j] == '.') {
+                    continue;
+                }
+                String s = "(" + board[i][j] + ")";
+                if (!seen.add(s + i) || !seen.add(j + s) || !seen.add(i / 3 + s + j / 3)) {
+                    return false;
+                }
+            }
+        }
+        return true;
 
     }
 

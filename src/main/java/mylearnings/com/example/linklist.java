@@ -22,7 +22,6 @@ class Linklist {
         }
     }
 
-
     public void push(int data) {
         final Node new_node = new Node(data);
         // last append
@@ -41,7 +40,7 @@ class Linklist {
          */
     }
 
-     public void push2(int data) {
+    public void push2(int data) {
         final Node new_node = new Node(data);
         // last append
         if (this.head2 == null) {
@@ -58,7 +57,6 @@ class Linklist {
          * head = new_node;
          */
     }
-
 
     public void getMiddle() {
         Node first = head;
@@ -209,7 +207,7 @@ class Linklist {
         }
     }
 
-     public void print2() {
+    public void print2() {
         Node current = this.head2;
         while (current != null) {
             System.out.println(current.data);
@@ -236,6 +234,58 @@ class Linklist {
         return root.next;
     }
 
+    public boolean hasCycle(Node head) {
+        Node fast = head;
+        Node slow = head;
+
+        while (fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                return true;
+            }
+        }
+        System.gc();
+        return false;
+    }
+
+    public void reorderList(Node head) {
+        // time -> O(n);
+        // find the middle of linked list
+        // middle will be leftmost element
+        Node fast = head.next; // since middle should be leftmost
+        Node slow = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // reverse the second half of list
+        Node second = slow.next;
+        Node pre = slow.next = null;
+        while (second != null) {
+            Node temp = second.next;
+            second.next = pre;
+            pre = second;
+            second = temp;
+        }
+        // first = 1 2 3
+        // seoncd = 5 4
+        // merge the list
+
+        second = pre;
+        Node first = head;
+        while (second != null) {
+            Node temp1 = first.next; // 2
+            Node temp2 = second.next; // 4
+            first.next = second; // 1->5
+            second.next = temp1; // 1 -> 5->2
+            first = temp1; // first = 2
+            second = temp2; // second = 4
+        }
+    }
+
     public static void main(String args[]) {
         final Linklist list = new Linklist();
         for (int i = 0; i < 3; i++) {
@@ -245,7 +295,7 @@ class Linklist {
         for (int i = 2; i < 6; i++) {
             list2.push2(i);
         }
-        //list2.print2();
+        // list2.print2();
         // list.getMiddle();
         // list.isElementPresent(10);
         // list.reverse();

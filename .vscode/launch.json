@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MathGeometry",
+            "request": "launch",
+            "mainClass": "mylearnings.com.example.MathGeometry",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
+            "name": "TwoPointer",
+            "request": "launch",
+            "mainClass": "mylearnings.com.example.TwoPointer",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
             "name": "NthSortedNumber",
             "request": "launch",
             "mainClass": "mylearnings.com.example.NthSortedNumber",

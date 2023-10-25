@@ -175,4 +175,40 @@ public class DP {
 
     }
 
+    /**
+     * Example 1:
+     * 
+     * Input: nums = [2,3,-2,4]
+     * Output: 6
+     * Explanation: [2,3] has the largest product 6.
+     * Example 2:
+     * 
+     * Input: nums = [-2,0,-1]
+     * Output: 0
+     * Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+     * 
+     * @param nums
+     * @return
+     */
+    public int maxProduct(int[] nums) {
+        // time -> O(n)
+        // space -> O(1)
+
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        int res = nums[0];
+        int min = 1;
+        int max = 1;
+
+        for (int i = 0; i < nums.length; i++) {
+            int temp = max * nums[i];
+            max = Math.max(nums[i], Math.max(temp, min * nums[i]));
+            min = Math.min(nums[i], Math.min(temp, min * nums[i]));
+            res = Math.max(res, max);
+        }
+        return res;
+
+    }
+
 }

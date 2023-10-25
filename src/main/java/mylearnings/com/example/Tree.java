@@ -1,5 +1,10 @@
 package mylearnings.com.example;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 import javax.swing.tree.TreeNode;
 
 public class Tree {
@@ -138,19 +143,80 @@ public class Tree {
         return depth;
     }
 
-     public int goodNodes(Node root) {
+    public int goodNodes(Node root) {
         return dfs(root, root.data);
     }
 
-    public int dfs(Node root, int maxValue){
-        if(root == null){
+    public int dfs(Node root, int maxValue) {
+        if (root == null) {
             return 0;
         }
-        int res = root.data >= maxValue ? 1:0;
+        int res = root.data >= maxValue ? 1 : 0;
         maxValue = Math.max(maxValue, root.data);
         res += dfs(root.left, maxValue);
         res += dfs(root.right, maxValue);
         return res;
+
+    }
+
+    /**
+     * Input: root = [1,2,3,null,5,null,4]
+     * Output: [1,3,4]
+     * 
+     * @param root
+     * @return
+     */
+    public List<Integer> rightSideView(Node root) {
+
+        // time O(n)
+        Queue<Node> queue = new LinkedList<>();
+        queue.offer(root);
+        List<Integer> ans = new ArrayList<>();
+
+        while (!queue.isEmpty()) {
+            int level = queue.size();
+            for (int i = 0; i < level; i++) {
+                Node temp = queue.poll();
+                if (temp != null) {
+                    if (i == 0) {
+                        ans.add(temp.data);
+                    }
+                    if (temp.right != null) {
+                        queue.offer(temp.right);
+                    }
+                    if (temp.left != null) {
+                        queue.offer(temp.left);
+                    }
+                }
+            }
+        }
+        return ans;
+
+    }
+
+    /**
+     * Input: root = [3,9,20,null,null,15,7]
+     * Output: true
+     * 
+     * @param root
+     * @return
+     */
+    public boolean isBalanced(TreeNode root) {
+        Pair<Boolean, Integer> ans = dfs(root);
+        return ans.getKey();
+    }
+
+    public Pair<Boolean, Integer> dfs(TreeNode node) {
+        if (node == null) {
+            return new Pair<>(true, 0);
+        }
+
+        Pair<Boolean, Integer> left = dfs(node.left);
+        Pair<Boolean, Integer> right = dfs(node.right);
+
+        boolean balance = left.getKey() && right.getKey() && (Math.abs(left.getValue() - right.getValue()) <= 1);
+
+        return new Pair<>(balance, 1 + Math.max(left.getValue(), right.getValue()));
 
     }
 

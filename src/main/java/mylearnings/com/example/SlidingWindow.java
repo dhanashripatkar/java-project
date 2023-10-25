@@ -1,7 +1,10 @@
 package mylearnings.com.example;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SlidingWindow {
@@ -24,8 +27,9 @@ public class SlidingWindow {
      * @param k
      * @return
      */
-
     public int[] maxSlidingWindow(int[] nums, int k) {
+        // time limit exceed
+        // Time C = O(n.k);
         int left = 0;
         int right = 0;
         int[] res = new int[nums.length];
@@ -49,11 +53,41 @@ public class SlidingWindow {
         int[] ans = new int[count];
         for (int i = 0; i < count; i++) {
             ans[i] = res[i];
-            System.out.println(ans[i]);
         }
-        System.gc();
-        return ans;
+        // System.gc();
+        // return ans;
+        // make sure to uncomment return statement
+        // =================================================================
+        // time com = O(n);
+        int n = nums.length;
+        int index = 0;
+        int[] result = new int[n - k + 1];
+        Deque<Integer> deque = new LinkedList<>(); // queue of indexes
+        // maintain queue as decreasing one
+        // stack -> pop and push from last
+        // queue -> add and remove from first
+        // deque -> pop push from last + pop push from first
 
+        for (int i = 0; i < n; i++) {
+            // 1. check first element is out of bound or not
+            if (!deque.isEmpty() && deque.peekFirst() == i - k) {
+                deque.pollFirst();
+            }
+            // 2. remove all the smaller elements from last // > or >= both are fine
+            while (!deque.isEmpty() && nums[i] > nums[deque.peekLast()]) {
+                deque.pollLast();
+            }
+
+            // 3. insert the index in queue
+            deque.offer(i);
+
+            // 4. check if the valid window size if yes then get the first element as its
+            // decresing queue
+            if (i >= k - 1) {
+                result[index++] = nums[deque.peekFirst()];
+            }
+        }
+        return result;
     }
 
     // Given a string, find the longest substring having exactly k unique
@@ -177,6 +211,174 @@ public class SlidingWindow {
         }
         return res;
 
+    }
+
+    /**
+     * Given a binary array nums and an integer k, return the maximum number of
+     * consecutive 1's in the array if you can flip at most k 0's.
+     * 
+     * 
+     * 
+     * Example 1:
+     * 
+     * Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
+     * Output: 6
+     * Explanation: [1,1,1,0,0,1,1,1,1,1,1]
+     * Bolded numbers were flipped from 0 to 1. The longest subarray is underlined.
+     * 
+     * @param nums
+     * @param k
+     * @return
+     */
+
+    public int longestOnes(int[] nums, int k) {
+        // Time Complexity: O(N)
+        // Space Complexity: O(1)
+        int left = 0;
+        int right = 0;
+        int sum = 0;
+        int res = 0;
+        while (right < nums.length) {
+            sum += nums[right];
+
+            while ((right - left + 1) > sum + k) {
+                sum -= nums[left];
+                left++;
+            }
+            res = Math.max(res, (right - left + 1));
+            right++;
+        }
+        return res;
+
+    }
+
+    /**
+     * Given a binary array nums, you should delete one element from it.
+     * 
+     * Return the size of the longest non-empty subarray containing only 1's in the
+     * resulting array. Return 0 if there is no such subarray.
+     * 
+     * 
+     * 
+     * Example 1:
+     * 
+     * Input: nums = [1,1,0,1]
+     * Output: 3
+     * Explanation: After deleting the number in position 2, [1,1,1] contains 3
+     * numbers with value of 1's.
+     * 
+     * @param nums
+     * @return
+     */
+    public int longestSubarray(int[] nums) {
+        // time -> O(n)
+        // space -> O(1)
+        int left = 0;
+        int right = 0;
+        int sum = 0;
+        int res = 0;
+
+        while (right < nums.length) {
+            sum += nums[right];
+
+            while ((right - left + 1) > sum + 1) {
+                sum -= nums[left];
+                left++;
+            }
+            res = Math.max(res, sum);
+            right++;
+        }
+
+        if (sum == nums.length) {
+            return sum - 1;
+        }
+        return res;
+    }
+
+    /**
+     * Given a string s and an integer k, return the maximum number of vowel letters
+     * in any substring of s with length k.
+     * 
+     * Vowel letters in English are 'a', 'e', 'i', 'o', and 'u'.
+     * Example 1:
+     * 
+     * Input: s = "abciiidef", k = 3
+     * Output: 3
+     * Explanation: The substring "iii" contains 3 vowel letters.
+     * 
+     * @param s
+     * @param k
+     * @return
+     */
+    public int maxVowels(String s, int k) {
+        // time -> O(n)
+        // space -> O(1)
+        int vowel = 0;
+        int maxVowel = 0;
+        for (int i = 0; i < k; i++) {
+            if (isVowel(s.charAt(i))) {
+                vowel++;
+            }
+        }
+        maxVowel = vowel;
+        for (int i = k; i < s.length(); i++) {
+            if (isVowel(s.charAt(i))) {
+                vowel++;
+            }
+            if (isVowel(s.charAt(i - k))) {
+                vowel--;
+            }
+            maxVowel = Math.max(maxVowel, vowel);
+        }
+        return maxVowel;
+
+    }
+
+    public boolean isVowel(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+    }
+
+    /**
+     * Given two strings s1 and s2, return true if s2 contains a permutation of s1,
+     * or false otherwise.
+     * 
+     * In other words, return true if one of s1's permutations is the substring of
+     * s2.
+     * Example 1:
+     * 
+     * Input: s1 = "ab", s2 = "eidbaooo"
+     * Output: true
+     * Explanation: s2 contains one permutation of s1 ("ba").
+     * 
+     * @param s1
+     * @param s2
+     * @return
+     */
+    public boolean checkInclusion(String s1, String s2) {
+        // time -> O(n)
+        int n = s1.length();
+        int m = s2.length();
+        int[] fre = new int[26];
+        int[] fre2 = new int[26];
+
+        if (n > m) {
+            return false;
+        }
+
+        for (int i = 0; i < n; i++) {
+            fre[s1.charAt(i) - 'a']++;
+        }
+
+        for (int i = 0; i < m; i++) {
+            fre2[s2.charAt(i) - 'a']++;
+            if (i >= n) {
+                fre2[s2.charAt(i - n) - 'a']--;
+            }
+            if (Arrays.equals(fre, fre2)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

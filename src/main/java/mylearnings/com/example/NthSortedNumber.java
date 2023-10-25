@@ -1,6 +1,7 @@
 package mylearnings.com.example;
 
 public class NthSortedNumber {
+    // dot refer this
     public static int findNthNumber(int n) {
         int current = 1;  // Initialize with the first natural number
         int count = 0;
