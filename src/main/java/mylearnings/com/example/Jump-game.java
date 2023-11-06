@@ -36,7 +36,7 @@ class JumpGame {
         int left =0;
         while(right < nums.length - 1){
             int sum =0;
-            for(int i = left; i<= right ; i++){
+            for(int i = left; i <= right ; i++){
                 sum = Math.max(sum, i + nums[i]);
             }
             left = right+1;

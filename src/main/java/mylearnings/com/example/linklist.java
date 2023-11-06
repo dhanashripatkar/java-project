@@ -1,5 +1,7 @@
 package mylearnings.com.example;
 
+import java.util.PriorityQueue;
+
 class Linklist {
 
     public Node head;
@@ -284,6 +286,88 @@ class Linklist {
             first = temp1; // first = 2
             second = temp2; // second = 4
         }
+    }
+
+    /**
+     * Example 1:
+     * 
+     * Input: lists = [[1,4,5],[1,3,4],[2,6]]
+     * Output: [1,1,2,3,4,4,5,6]
+     * Explanation: The linked-lists are:
+     * [
+     * 1->4->5,
+     * 1->3->4,
+     * 2->6
+     * ]
+     * merging them into one sorted list:
+     * 1->1->2->3->4->4->5->6
+     * 
+     * @param lists
+     * @return
+     */
+    public Node mergeKLists(Node[] lists) {
+        // time - O(nlogk)(4ms) - k is size of listNode
+        // space - O(k)
+        PriorityQueue<Node> queue = new PriorityQueue<>((a, b) -> a.data - b.data);
+        for (int i = 0; i < lists.length; i++) {
+            if (lists[i] != null) {
+                queue.offer(lists[i]);
+            }
+        }
+
+        Node dummy = new Node(0);
+        Node current = dummy;
+
+        while (!queue.isEmpty()) {
+            Node node = queue.poll();
+            current.next = node;
+            current = current.next;
+
+            if (node.next != null) {
+                queue.offer(node.next);
+            }
+        }
+        return dummy.next;
+
+    }
+
+    public Node mergeKsortedListUsingMerge(Node[] lists) {
+        // using merge iterval
+        // time ->O(nlogk) (1ms), space ->O(1)
+
+        int interval = 1;
+        int size = lists.length;
+        while (interval < size) {
+            for (int i = 0; i < size - interval; i += 2 * interval) {
+                lists[i] = merge(lists[i], lists[i + interval]);
+            }
+            interval *= 2;
+        }
+
+        return size > 0 ? lists[0] : null;
+
+    }
+
+    public Node merge(Node l1, Node l2) {
+        Node dummy = new Node(0);
+        Node current = dummy;
+
+        while (l1 != null && l2 != null) {
+            if (l1.data <= l2.data) {
+                current.next = l1;
+                l1 = l1.next;
+            } else {
+                current.next = l2;
+                l2 = l2.next;
+            }
+            current = current.next;
+        }
+        if (l1 != null && current != null) {
+            current.next = l1;
+        } else if (l2 != null && current != null) {
+            current.next = l2;
+        }
+        return dummy.next;
     }
 
     public static void main(String args[]) {

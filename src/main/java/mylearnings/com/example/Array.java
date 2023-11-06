@@ -91,6 +91,7 @@ public class Array {
         int missing = -1;
         int repeat = -1;
 
+        // imp i should start with 1
         for (int i = 1; i <= list.size(); i++) {
             if (hash[i] == 2) {
                 repeat = i;
@@ -230,6 +231,34 @@ public class Array {
         }
         return true;
 
+    }
+
+    // easy problem
+    // merge two sordted array
+    // // m and n are last index of nums1 and nums2 respectively
+    // Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+    // Output: [1,2,2,3,5,6]
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+
+        // time O(n+m);
+        // space O(1)
+        int last = m + n - 1;
+        while (m > 0 && n > 0) {
+            if (nums1[m - 1] > nums2[n - 1]) {
+                nums1[last] = nums1[m - 1];
+                m--;
+            } else {
+                nums1[last] = nums2[n - 1];
+                n--;
+            }
+            last--;
+        }
+        // append the remaining elements present in second array
+        while (n > 0) {
+            nums1[last] = nums2[n - 1];
+            n--;
+            last--;
+        }
     }
 
 }

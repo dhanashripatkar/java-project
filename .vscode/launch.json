@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Sorting",
+            "request": "launch",
+            "mainClass": "mylearnings.com.example.Sorting",
+            "projectName": "demo"
+        },
+        {
+            "type": "java",
             "name": "MathGeometry",
             "request": "launch",
             "mainClass": "mylearnings.com.example.MathGeometry",

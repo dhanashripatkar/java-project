@@ -1,4 +1,5 @@
 {
     "terminal.integrated.fontSize": 14,
-    "editor.fontSize": 14
+    "editor.fontSize": 14,
+    "java.debug.settings.onBuildFailureProceed": true
 }

@@ -122,7 +122,7 @@ public class BinarySearch {
      * 
      * @param nums
      * @return
-     */
+     */ // 
 
     public int findPeakElement(int[] nums) {
         int left = 0;
